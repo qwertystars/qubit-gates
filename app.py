@@ -21,27 +21,86 @@ st.markdown("""
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-    /* Force Light Mode - Override Dark Mode */
-    @media (prefers-color-scheme: dark) {
-        .stApp {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-            color: #000000 !important;
-        }
+    /* ========== FORCE LIGHT MODE - COMPREHENSIVE OVERRIDE ========== */
+
+    /* Override root variables for dark mode */
+    :root, [data-theme="dark"], [data-theme="light"] {
+        --text-color: #262730 !important;
+        --background-color: #ffffff !important;
+        --secondary-background-color: #f0f2f6 !important;
+        --primary-color: #667eea !important;
     }
 
-    /* Global Styles */
-    * {
-        font-family: 'Poppins', sans-serif;
+    /* Force app container backgrounds */
+    .stApp, [data-testid="stAppViewContainer"], .main, body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: #262730 !important;
     }
 
-    /* Ensure all text is visible */
-    body, p, span, div, label, input, select {
-        color: #000000 !important;
+    /* Override header */
+    [data-testid="stHeader"], header {
+        background: transparent !important;
     }
-    
+
+    /* Global text color enforcement */
+    *, *::before, *::after {
+        font-family: 'Poppins', sans-serif !important;
+        color: inherit;
+    }
+
+    /* Force all text elements to be dark */
+    body, p, span, div:not(.gradient-box):not(.feature-box), label, input,
+    select, textarea, h1, h2, h3, h4, h5, h6, li, a, strong, em, code, pre {
+        color: #262730 !important;
+    }
+
+    /* Streamlit specific text elements */
+    .stMarkdown, .stMarkdown *,
+    [data-testid="stMarkdownContainer"], [data-testid="stMarkdownContainer"] *,
+    .stText, .stText *,
+    [data-testid="stText"], [data-testid="stText"] * {
+        color: #262730 !important;
+    }
+
+    /* Form elements */
+    .stSelectbox, .stSelectbox *,
+    .stRadio, .stRadio *,
+    .stCheckbox, .stCheckbox *,
+    .stSlider, .stSlider *,
+    .stNumberInput, .stNumberInput *,
+    .stTextInput, .stTextInput * {
+        color: #262730 !important;
+        background: white !important;
+    }
+
+    /* Labels for all form elements */
+    [data-testid="stWidgetLabel"],
+    .stSelectbox label, .stRadio label, .stSlider label,
+    .stCheckbox label, .stNumberInput label, .stTextInput label {
+        color: #262730 !important;
+    }
+
+    /* Info/Success/Warning/Error boxes */
+    .stAlert, [data-testid="stAlert"],
+    .stInfo, .stSuccess, .stWarning, .stError {
+        background: white !important;
+        color: #262730 !important;
+    }
+
+    .stAlert *, [data-testid="stAlert"] * {
+        color: #262730 !important;
+    }
+
+    /* Metrics */
+    [data-testid="stMetric"], [data-testid="stMetricLabel"],
+    [data-testid="stMetricValue"], [data-testid="stMetricDelta"] {
+        color: #262730 !important;
+    }
+
+    /* Main content area */
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
     }
     
     .block-container {
@@ -292,35 +351,99 @@ st.markdown("""
         color: #667eea;
     }
     
-    /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    /* ========== HIDE STREAMLIT BRANDING & MENU ========== */
+    #MainMenu {visibility: hidden !important; display: none !important;}
+    footer {visibility: hidden !important; display: none !important;}
+    header {visibility: visible !important;}
 
-    /* Force light mode for Streamlit components */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    }
+    /* Hide hamburger menu and toolbar */
+    [data-testid="stToolbar"] {display: none !important;}
+    .stDeployButton {display: none !important;}
+    [data-testid="stStatusWidget"] {display: none !important;}
 
-    [data-testid="stHeader"] {
+    /* ========== ADDITIONAL STREAMLIT ELEMENT OVERRIDES ========== */
+
+    /* Tabs - ensure proper colors */
+    .stTabs [data-baseweb="tab-panel"] {
         background: transparent !important;
     }
 
-    /* Override Streamlit dark mode text colors */
-    .stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown h1, .stMarkdown h2,
-    .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-        color: #000000 !important;
+    .stTabs [data-baseweb="tab-panel"] * {
+        color: #262730 !important;
     }
 
-    /* Ensure form elements are visible */
-    .stSelectbox label, .stRadio label, .stSlider label, .stCheckbox label {
-        color: #000000 !important;
+    /* Columns */
+    [data-testid="column"], .row-widget {
+        background: transparent !important;
     }
 
-    /* Make sure metric labels and values are visible */
-    [data-testid="stMetricLabel"] {
-        color: #333333 !important;
+    /* Expander text */
+    .streamlit-expanderHeader, .streamlit-expanderContent,
+    [data-testid="stExpander"], [data-testid="stExpanderDetails"] {
+        color: #262730 !important;
     }
-    
+
+    /* Code blocks */
+    code, pre, .stCode {
+        background: #f8f9fa !important;
+        color: #262730 !important;
+    }
+
+    /* Dataframes and tables */
+    .dataframe, table, th, td {
+        color: #262730 !important;
+        background: white !important;
+    }
+
+    /* Sidebar (if used) */
+    [data-testid="stSidebar"], .css-1d391kg {
+        background: white !important;
+        color: #262730 !important;
+    }
+
+    /* ========== DARK MODE MEDIA QUERY OVERRIDE ========== */
+    @media (prefers-color-scheme: dark) {
+        /* Force everything to light theme even if system is dark */
+        body, .stApp, [data-testid="stAppViewContainer"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: #262730 !important;
+        }
+
+        /* Override all text to be dark in dark mode */
+        *, *:not(.gradient-box *):not(.feature-box *):not(.custom-link-button *):not(.stTabs [aria-selected="true"] *) {
+            color: #262730 !important;
+        }
+
+        /* Ensure form elements stay white background */
+        input, select, textarea, [data-baseweb="select"], [data-baseweb="input"] {
+            background: white !important;
+            color: #262730 !important;
+        }
+
+        /* Keep card backgrounds white */
+        .block-container, .card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #262730 !important;
+        }
+
+        /* Preserve special colored boxes */
+        .gradient-box, .gradient-box * {
+            color: white !important;
+        }
+
+        .feature-box, .feature-box * {
+            color: white !important;
+        }
+
+        .custom-link-button, .custom-link-button * {
+            color: white !important;
+        }
+
+        .stTabs [aria-selected="true"], .stTabs [aria-selected="true"] * {
+            color: white !important;
+        }
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .main-header {
