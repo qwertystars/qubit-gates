@@ -7,6 +7,12 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Configure matplotlib for better dark mode support
+# This will use a style that looks good in both light and dark modes
+plt.rcParams['figure.facecolor'] = 'none'  # Transparent figure background
+plt.rcParams['axes.facecolor'] = 'none'  # Transparent axes background
+plt.rcParams['savefig.facecolor'] = 'none'  # Transparent saved figure background
+
 # Page configurationhttps://github.com/ivanho-git/qubit-gates/edit/main/app.py
 st.set_page_config(
     page_title="Quantum Gate Simulator",
@@ -15,27 +21,71 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Premium Custom CSS
+# Premium Custom CSS with Dark Mode Support
 st.markdown("""
     <style>
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-    
+
+    /* CSS Variables for Light Mode (Default) */
+    :root {
+        --bg-gradient-start: #667eea;
+        --bg-gradient-end: #764ba2;
+        --container-bg: rgba(255, 255, 255, 0.95);
+        --text-primary: #000000;
+        --text-secondary: #666;
+        --text-tertiary: #333;
+        --card-bg: white;
+        --info-box-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --info-box-text: #000000;
+        --tab-bg: white;
+        --tab-list-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --metric-color: #667eea;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --border-color: rgba(102, 126, 234, 0.1);
+        --expander-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --input-bg: white;
+    }
+
+    /* Dark Mode Variables */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --container-bg: rgba(30, 30, 46, 0.95);
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #d0d0d0;
+            --card-bg: #2a2a3e;
+            --info-box-bg: linear-gradient(135deg, #2a2a3e 0%, #363652 100%);
+            --info-box-text: #e0e0e0;
+            --tab-bg: #2a2a3e;
+            --tab-list-bg: linear-gradient(135deg, #2a2a3e 0%, #363652 100%);
+            --metric-color: #8b9dff;
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --shadow-light: rgba(0, 0, 0, 0.4);
+            --border-color: rgba(139, 157, 255, 0.2);
+            --expander-bg: linear-gradient(135deg, #2a2a3e 0%, #363652 100%);
+            --input-bg: #2a2a3e;
+        }
+    }
+
     /* Global Styles */
     * {
         font-family: 'Poppins', sans-serif;
     }
-    
+
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
         background-attachment: fixed;
     }
-    
+
     .block-container {
         padding: 2rem 3rem;
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--container-bg);
         border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 20px 60px var(--shadow-color);
         margin: 2rem auto;
         backdrop-filter: blur(10px);
     }
@@ -54,7 +104,7 @@ st.markdown("""
     
     .subtitle {
         text-align: center;
-        color: #666;
+        color: var(--text-secondary);
         font-size: 1.2rem;
         margin-bottom: 2rem;
         font-weight: 300;
@@ -68,17 +118,17 @@ st.markdown("""
     /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: var(--tab-list-bg);
         padding: 1rem;
         border-radius: 15px;
-        box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: inset 0 2px 10px var(--shadow-light);
     }
-    
+
     .stTabs [data-baseweb="tab"] {
         height: 60px;
-        background: white;
+        background: var(--tab-bg);
         border-radius: 10px;
-        color: #333;
+        color: var(--text-tertiary);
         font-weight: 600;
         font-size: 1.1rem;
         padding: 0 2rem;
@@ -123,32 +173,32 @@ st.markdown("""
     
     /* Info Boxes */
     .info-box {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: var(--info-box-bg);
         padding: 1.5rem;
         border-radius: 15px;
         margin: 1rem 0;
-        color: #000000;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        color: var(--info-box-text);
+        box-shadow: 0 5px 20px var(--shadow-light);
         border-left: 5px solid #667eea;
         transition: all 0.3s ease;
     }
-    
+
     .info-box:hover {
         transform: translateX(5px);
         box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
     }
-    
+
     .info-box h3, .info-box h4, .info-box p, .info-box ul, .info-box li {
-        color: #000000 !important;
+        color: var(--info-box-text) !important;
     }
-    
+
     .info-box h3 {
         font-weight: 700;
         font-size: 1.4rem;
         margin-bottom: 0.8rem;
         color: #667eea !important;
     }
-    
+
     .info-box h4 {
         font-weight: 600;
         font-size: 1.2rem;
@@ -158,15 +208,15 @@ st.markdown("""
     
     /* Card Styling */
     .card {
-        background: white;
+        background: var(--card-bg);
         padding: 2rem;
         border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 30px var(--shadow-light);
         margin: 1rem 0;
-        border: 1px solid rgba(102, 126, 234, 0.1);
+        border: 1px solid var(--border-color);
         transition: all 0.3s ease;
     }
-    
+
     .card:hover {
         box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
         transform: translateY(-5px);
@@ -189,7 +239,7 @@ st.markdown("""
     
     /* Select boxes and inputs */
     .stSelectbox, .stRadio {
-        background: white;
+        background: var(--input-bg);
         border-radius: 10px;
         padding: 0.5rem;
     }
@@ -203,7 +253,7 @@ st.markdown("""
     [data-testid="stMetricValue"] {
         font-size: 1.8rem;
         font-weight: 700;
-        color: #667eea;
+        color: var(--metric-color);
     }
     
     /* Progress bar */
@@ -273,16 +323,57 @@ st.markdown("""
     
     /* Expander */
     .streamlit-expanderHeader {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: var(--expander-bg);
         border-radius: 10px;
         font-weight: 600;
         color: #667eea;
     }
     
+    /* Dark mode text color overrides for Streamlit elements */
+    @media (prefers-color-scheme: dark) {
+        .stMarkdown, .stMarkdown p, .stMarkdown div, .stMarkdown span {
+            color: var(--text-primary);
+        }
+
+        /* Ensure headings are visible in dark mode */
+        .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+            color: var(--text-primary);
+        }
+
+        /* Update input fields for dark mode */
+        .stTextInput input, .stTextArea textarea, .stNumberInput input {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        /* Selectbox dark mode */
+        .stSelectbox > div > div {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        /* Radio buttons dark mode */
+        .stRadio label {
+            color: var(--text-primary);
+        }
+
+        /* Slider labels dark mode */
+        .stSlider label {
+            color: var(--text-primary);
+        }
+
+        /* Info/success/warning/error messages */
+        .stAlert {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+    }
+
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .main-header {
@@ -1120,13 +1211,13 @@ with tab5:
     st.markdown("""
     <style>
     .profile-card {
-        background: white;
+        background: var(--card-bg);
         padding: 2rem;
         border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 30px var(--shadow-light);
         text-align: center;
         transition: all 0.3s ease;
-        border: 1px solid rgba(102, 126, 234, 0.1);
+        border: 1px solid var(--border-color);
         display: flex; /* Use flexbox for alignment */
         flex-direction: column; /* Stack items vertically */
         justify-content: flex-start; /* Align content to the top */
@@ -1161,7 +1252,7 @@ with tab5:
     }
     .profile-bio {
         font-size: 0.95rem;
-        color: #555;
+        color: var(--text-secondary);
         line-height: 1.6;
     }
     </style>
@@ -1239,8 +1330,8 @@ with tab5:
 # Footer
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("""
-    <div style='text-align: center; color: #666; padding: 2rem 0; border-top: 2px solid #e0e0e0; margin-top: 3rem;'>
-        <p style='font-size: 1.1rem; margin-bottom: 0.5rem;'>Made By Engineers 👷🏻‍♂️ For Curiosity Not Just For Credits 😉</p>
-        <p style='font-size: 0.9rem; opacity: 0.8;'>Visualizing quantum states on the Bloch sphere | Ibhan Mukherjee</p>
+    <div style='text-align: center; color: var(--text-secondary); padding: 2rem 0; border-top: 2px solid var(--border-color); margin-top: 3rem;'>
+        <p style='font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-secondary);'>Made By Engineers 👷🏻‍♂️ For Curiosity Not Just For Credits 😉</p>
+        <p style='font-size: 0.9rem; opacity: 0.8; color: var(--text-secondary);'>Visualizing quantum states on the Bloch sphere | Ibhan Mukherjee</p>
     </div>
 """, unsafe_allow_html=True)
