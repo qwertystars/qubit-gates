@@ -20,10 +20,23 @@ st.markdown("""
     <style>
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-    
+
+    /* Force Light Mode - Override Dark Mode */
+    @media (prefers-color-scheme: dark) {
+        .stApp {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: #000000 !important;
+        }
+    }
+
     /* Global Styles */
     * {
         font-family: 'Poppins', sans-serif;
+    }
+
+    /* Ensure all text is visible */
+    body, p, span, div, label, input, select {
+        color: #000000 !important;
     }
     
     .main {
@@ -282,6 +295,31 @@ st.markdown("""
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+
+    /* Force light mode for Streamlit components */
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+
+    [data-testid="stHeader"] {
+        background: transparent !important;
+    }
+
+    /* Override Streamlit dark mode text colors */
+    .stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown h1, .stMarkdown h2,
+    .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: #000000 !important;
+    }
+
+    /* Ensure form elements are visible */
+    .stSelectbox label, .stRadio label, .stSlider label, .stCheckbox label {
+        color: #000000 !important;
+    }
+
+    /* Make sure metric labels and values are visible */
+    [data-testid="stMetricLabel"] {
+        color: #333333 !important;
+    }
     
     /* Responsive Design */
     @media (max-width: 768px) {
